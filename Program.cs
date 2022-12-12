@@ -6,9 +6,9 @@ namespace AdventOfCode2022
     {
         static void Main(string[] args)
         {
-            var day = 7;
-            var part = 1;
-            var test = true;
+            var day = 11;
+            var part = 2;
+            var test = false;
             Run(day, part, test);
         }
 

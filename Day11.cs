@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 
 namespace AdventOfCode2022
 {
@@ -73,8 +72,6 @@ namespace AdventOfCode2022
 
         private void RunOperations(int rounds, bool reduceWorryLevel)
         {
-
-
             for (int round = 0; round < rounds; round++)
             {
                 for (int monkeyIndex = 0; monkeyIndex < monkeys.Count; monkeyIndex++)
@@ -88,7 +85,7 @@ namespace AdventOfCode2022
 
                 }
 
-                if(round == 0 || round == 19 || (round+1) % 1000 == 0)
+                if(round < 20 || (round+1) % 1000 == 0)
                 {
                     Console.WriteLine($"== After round {round+1} ==");
                     foreach (var monkey in monkeys.Values)
@@ -104,7 +101,7 @@ namespace AdventOfCode2022
         private class Monkey
         {
             public int Index;
-            public List<MultiNumber> Items = new List<MultiNumber>();
+            public List<Number> Items = new List<Number>();
             public int Inspections = 0;
             public string Operand1;
             public string Operand2;
@@ -121,7 +118,7 @@ namespace AdventOfCode2022
             public void ReadStartingItems(string input)
             {
                 Items = input.Split(':').Last().Split(',').Select(str => 
-                    new MultiNumber(int.Parse(str.Trim()), Divisor)).ToList();
+                    new Number(int.Parse(str.Trim()))).ToList();
             }
 
             public void ReadOperation(string input)
@@ -139,9 +136,6 @@ namespace AdventOfCode2022
             {
                 for (int i = 0; i < Items.Count; i++)
                 {
-                    var oldValue = Items[i];
-                    var newValue = oldValue;
-
                     if(Operation == "+")
                     {
                         if (Operand1 == "old" && Operand2 == "old")
@@ -173,33 +167,11 @@ namespace AdventOfCode2022
                 }
             }
 
-            public void DoOperationOld()
-            {
-                /*for (int i = 0; i < Items.Count; i++)
-                {
-                    var oldValue = Items[i];
-                    var newValue = oldValue;
-                    var operand1 = Operand1 == "old" ? oldValue : long.Parse(Operand1);
-                    var operation = Operation;
-                    var operand2 = Operand2 == "old" ? oldValue : long.Parse(Operand2);
-                    if (operation == "+")
-                        newValue = operand1 + operand2;
-                    else if (operation == "-")
-                        newValue = operand1 - operand2;
-                    else if (operation == "*")
-                        newValue = operand1 * operand2;
-                    Items[i] = newValue;
-
-                    Inspections++;
-                }*/
-            }
-
             public void GetBored()
             {
                 for(int i = 0; i < Items.Count; i++)
                 {
                     Items[i].Divide(3);
-                    //Items[i] = Items[i] / 3;
                 }
             }
 
@@ -214,7 +186,7 @@ namespace AdventOfCode2022
             {
                 for(int i = 0; i < Items.Count; i++)
                 {
-                    var isDivisible = Items[i].IsDivisible(Divisor); // Items[i] % (long)Divisor == 0;
+                    var isDivisible = Items[i].IsDivisible(Divisor);
                     var monkeyIndex = isDivisible ? ThrowIndexTrue : ThrowIndexFalse;
                     allMonkeys[monkeyIndex].Items.Add(Items[i]);
                 }
@@ -231,140 +203,75 @@ namespace AdventOfCode2022
 
 
 
-        private class MultiNumber
+        private class Number
         {
-            Dictionary<int, Number> All = new Dictionary<int, Number>();
+            public HashSet<int> divisors = new HashSet<int>();
+            public int divisorProduct = 1;
 
-            public MultiNumber(int number, IEnumerable<int> divisors)
+            public long Value;
+
+            public Number(int number)
             {
-                foreach(var divisor in divisors)
-                {
-                    All.Add(divisor, new Number(number, divisor));
-                }
-            }
-            public MultiNumber(int number, int divisor)
-            {
-                All.Add(divisor, new Number(number, divisor));
+                Value = number;
             }
 
             public bool IsDivisible(int divisor)
             {
-                return All[divisor].Remainder == 0;
+                return Value % divisor == 0;
             }
 
             public void AddDivisors(IEnumerable<int> divisors)
             {
-                var number = (int)GetNumber();
-                foreach(var divisor in divisors)
+
+                foreach (var divisor in divisors)
                 {
-                    if(!All.ContainsKey(divisor))
-                        All.Add(divisor, new Number(number, divisor));
+                    if (!this.divisors.Contains(divisor))
+                    {
+                        this.divisors.Add(divisor);
+                        divisorProduct *= divisor;
+                    }
                 }
             }
 
             public long GetNumber()
             {
-                return All.First().Value.GetNumber();
+                return Value;
             }
 
             public void Add(int number)
             {
-                foreach(var n in All.Values)
-                {
-                    n.Add(number);
-                }
+                Value += number;
+                FixValue();
             }
             public void Multiply(int number)
             {
-                foreach (var n in All.Values)
-                {
-                    n.Multiply(number);
-                }
+                Value *= number;
+                FixValue();
             }
             public void Divide(int number)
             {
-                foreach (var n in All.Values)
-                {
-                    n.Divide(number);
-                }
+                Value /= number;
             }
 
 
             public void Square()
             {
+                Value = Value * Value;
+                FixValue();
+            }
 
-                foreach (var n in All.Values)
-                {
-                    n.Square();
-                }
+            private void FixValue()
+            {
+
+                if (Value > divisorProduct)
+                    Value = Value % divisorProduct;
             }
 
             public override string ToString()
             {
-                return All.Values.First().ToString();
-            }
-
-
-        }
-
-        private class Number
-        {
-            public readonly int Divisor;
-            public int Count;
-            public int Remainder;
-
-            public Number(int number, int divisor)
-            {
-                Divisor = divisor;
-                Count = 0;
-                Remainder = number;
-                FitRemainder();
-            }
-
-            public long GetNumber()
-            {
-                return (long)Count * Divisor + Remainder;
-            }
-
-            public void Add(int number)
-            {
-                Remainder += number;
-                FitRemainder();
-            }
-
-            public void Multiply(int number)
-            {
-                Count *= number;
-                Remainder *= number;
-                FitRemainder();
-
-            }
-
-            public void Square()
-            {
-                Count = Count * Count * Divisor + 2 * Count * Remainder;
-                Remainder = Remainder * Remainder;
-                FitRemainder(); 
-            }
-
-            public void Divide(int d)
-            {
-                var val = (Count * Divisor + Remainder) / d;
-                Count = 0;
-                Remainder = val;
-                FitRemainder();
-            }
-
-            private void FitRemainder()
-            {
-                Count += Remainder / Divisor;
-                Remainder = Remainder % Divisor;
-            }
-
-            public override string ToString()
-            {
-                return ((long)Divisor * Count + Remainder).ToString();
+                return Value.ToString();
             }
         }
+
     }
 }

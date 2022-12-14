@@ -11,6 +11,12 @@
             Y = y;
         }
 
+        public static Vec2 Parse(string input, char separation)
+        {
+            var parts = input.Split(separation);
+            return new Vec2(int.Parse(parts[0].Trim()), int.Parse(parts[1].Trim()));
+        }
+
         public override int GetHashCode()
         {
             return X.GetHashCode() + Y.GetHashCode();
@@ -29,6 +35,16 @@
         public static Vec2 operator -(Vec2 left, Vec2 right)
         {
             return new Vec2(left.X - right.X, left.Y - right.Y);
+        }
+
+        public static bool operator==(Vec2 left, Vec2 right)
+        {
+            return left.X == right.X && left.Y == right.Y;
+        }
+
+        public static bool operator!=(Vec2 left, Vec2 right)
+        {
+            return left.X != right.X || left.Y != right.Y;
         }
 
         public static Vec2 zero { get { return new Vec2(0, 0); } }

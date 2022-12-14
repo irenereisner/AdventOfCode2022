@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -89,5 +90,19 @@ namespace AdventOfCode2022
             if (pos.Y < Height - 1) yield return new Vec2(pos.X, pos.Y + 1);
         }
 
+
+        public override string ToString()
+        {
+            var str = "";
+            IEnumerable<T> iter = Values;
+
+            for(int y = 0; y < Height; y++)
+            {
+                str += string.Join("", iter.Take(Width));
+                str += "\n";
+                iter = iter.Skip(Width);
+            }
+            return str;
+        }
     }
 }

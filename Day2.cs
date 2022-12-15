@@ -1,3 +1,4 @@
+using AdventOfCode;
 using System;
 using System.IO;
 using System.Linq;
@@ -16,21 +17,19 @@ namespace AdventOfCode2022
 
         public string RunPart1()
         {
-            var lines = File.ReadAllLines(filename);
-            return lines.Sum(ComputeScore).ToString();
+            var inputs = Parser.SplitLinesBySpaces(filename, str => char.Parse(str));
+            var result = inputs.Select(input => ComputeScore(input[0], input[1])).Sum();
+            return result.ToString();
         }
         public string RunPart2()
         {
-            var lines = File.ReadAllLines(filename);
-            return lines.Sum(ComputeScorePart2).ToString();
+            var inputs = Parser.SplitLinesBySpaces(filename, str => char.Parse(str));
+            var result = inputs.Select(input => ComputeScorePart2(input[0], input[1])).Sum();
+            return result.ToString();
         }
 
-        private int ComputeScore(string inputLine)
+        private int ComputeScore(char otherShape, char myShape)
         {
-            var shapes = inputLine.Split(' ');
-            var otherShape = char.Parse(shapes[0]);
-            var myShape = char.Parse(shapes[1]);
-
             var myScore = GetScoreForShape(myShape);
             var otherScore = GetScoreForShape(otherShape);
             var winScore = GetWinScore(myScore, otherScore);
@@ -38,13 +37,8 @@ namespace AdventOfCode2022
             return myScore + winScore;
         }
 
-        private int ComputeScorePart2(string inputLine)
+        private int ComputeScorePart2(char otherShape, char outcome)
         {
-            var shapes = inputLine.Split(' ');
-            var otherShape = char.Parse(shapes[0]);
-            var outcome = char.Parse(shapes[1]);
-
-
             var otherScore = GetScoreForShape(otherShape);
             var myScore = GetAnswer(otherScore, outcome);
 

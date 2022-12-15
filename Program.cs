@@ -6,9 +6,10 @@ namespace AdventOfCode2022
     {
         static void Main(string[] args)
         {
-            var day = 11;
-            var part = 2;
-            var test = false;
+            var day = int.Parse(args[0]);
+            var part = int.Parse(args[1]);
+            var test = bool.Parse(args[2]);
+
             Run(day, part, test);
         }
 

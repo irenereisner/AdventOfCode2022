@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using static System.Net.Mime.MediaTypeNames;
+using AdventOfCode;
 
 namespace AdventOfCode2022
 {

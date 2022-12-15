@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace AdventOfCode2022
+namespace AdventOfCode
 {
 
-    internal class Grid<T> where T : IEquatable<T>
+    public class Grid<T> where T : IEquatable<T>
     {
         public int Height { get; private set; }
         public int Width { get; private set; }

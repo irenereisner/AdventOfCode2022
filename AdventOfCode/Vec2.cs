@@ -1,7 +1,7 @@
-﻿namespace AdventOfCode2022
+﻿namespace AdventOfCode
 {
 
-    internal struct Vec2
+    public struct Vec2
     {
         public int X;
         public int Y;

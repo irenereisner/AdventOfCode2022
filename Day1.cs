@@ -1,5 +1,5 @@
+using AdventOfCode;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace AdventOfCode2022
@@ -16,37 +16,20 @@ namespace AdventOfCode2022
 
         public string RunPart1()
         {
-            var lines = File.ReadAllLines(filename);
-            var caloriesPerElf = GetCaloriesPerElf(lines);
+            var caloriesPerElf = GetCaloriesPerElf();
             return caloriesPerElf.Max().ToString();
         }
         public string RunPart2()
         {
-            string[] lines = File.ReadAllLines(filename);
-            var caloriesPerElf = GetCaloriesPerElf(lines);
+            var caloriesPerElf = GetCaloriesPerElf();
             return caloriesPerElf.OrderByDescending(c => c).Take(3).Sum().ToString();
         }
 
 
-        private IEnumerable<int> GetCaloriesPerElf(string[] lines)
+        private IEnumerable<int> GetCaloriesPerElf()
         {
-            var caloriesPerElf = new List<int>();
-            var currentSum = 0;
-            foreach (var line in lines)
-            {
-                if (string.IsNullOrWhiteSpace((line)))
-                {
-                    caloriesPerElf.Add(currentSum);
-                    currentSum = 0;
-                }
-                else
-                {
-                    currentSum += int.Parse(line);
-                }
-            }
-            if (currentSum > 0)
-                caloriesPerElf.Add(currentSum);
-
+            var calories = Parser.SplitByEmptyLines(filename, s => int.Parse(s));
+            var caloriesPerElf = calories.Select(c => c.Sum());
             return caloriesPerElf;
         }
     }

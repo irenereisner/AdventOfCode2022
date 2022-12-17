@@ -29,6 +29,21 @@ namespace AdventOfCode
             }
         }
 
+
+        public void AddRows(int count, T value)
+        {
+            Values.AddRange(Enumerable.Range(0, count * Width).Select(x => value));
+            Height += count;
+        }
+
+        public void RemoveRows(int index, int count)
+        {
+            var vIndex = index * Width;
+            var vCount = count * Width;
+            Values.RemoveRange(vIndex, vCount);
+            Height = Height - count;
+        }
+
         public int GetIndex(T value)
         {
             return Values.IndexOf(value);
@@ -88,6 +103,12 @@ namespace AdventOfCode
         }
 
 
+        public bool IsPosInside(Vec2 pos)
+        {
+            return pos.X >= 0 && pos.Y >= 0 && pos.X < Width && pos.Y < Height;
+        }
+
+
         public override string ToString()
         {
             var str = "";
@@ -97,6 +118,19 @@ namespace AdventOfCode
             {
                 str += string.Join("", iter.Take(Width));
                 str += "\n";
+                iter = iter.Skip(Width);
+            }
+            return str;
+        }
+
+        public string ToStringUpsideDown()
+        {
+            var str = "";
+            IEnumerable<T> iter = Values;
+
+            for (int y = 0; y < Height; y++)
+            {
+                str = string.Join("", iter.Take(Width)) + "\n" + str;
                 iter = iter.Skip(Width);
             }
             return str;

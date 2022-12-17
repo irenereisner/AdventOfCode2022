@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AdventOfCode
@@ -51,6 +52,22 @@ namespace AdventOfCode
             foreach (var line in allLines)
             {
                 yield return line.Split(separator).Select(s => convert(s)).ToList();
+            }
+        }
+
+        public static IEnumerable<List<int>> ParseAllInts(string file)
+        {
+            var allLines = File.ReadAllLines(file);
+
+            foreach (var line in allLines)
+            {
+                var list = new List<int>();
+                foreach(var value in Regex.Matches(line, @"-?\d+"))
+                {
+                    list.Add(int.Parse(((Match)value).Value));
+                }
+                yield return list;
+
             }
         }
 

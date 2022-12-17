@@ -1,4 +1,6 @@
-﻿namespace AdventOfCode
+﻿using System;
+
+namespace AdventOfCode
 {
 
     public struct Vec2
@@ -25,6 +27,11 @@
         public override string ToString()
         {
             return $"[{X},{Y}]";
+        }
+
+        public int ManhattanLength
+        {
+            get { return Math.Abs(X) + Math.Abs(Y); }
         }
 
         public static Vec2 operator+(Vec2 left, Vec2 right)

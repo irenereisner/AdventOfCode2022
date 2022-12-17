@@ -49,6 +49,7 @@ namespace AdventOfCode2022
                 case 12: return new Day12(filePath);
                 case 13: return new Day13(filePath);
                 case 14: return new Day14(filePath);
+                case 15: return new Day15(filePath, test);
                 default: throw new NotImplementedException();
             };
         }

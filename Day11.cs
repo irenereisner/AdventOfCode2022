@@ -5,21 +5,14 @@ using System.Linq;
 
 namespace AdventOfCode2022
 {
-
-    public class Day11 : IDay
+    [Day(11)]
+    public class Day11 : Day
     {
-        private string filename;
-
         private Dictionary<int, Monkey> monkeys = new Dictionary<int, Monkey>();
 
-        public Day11(string filename)
+        public override string RunPart1()
         {
-            this.filename = filename;
-        }
-
-        public string RunPart1()
-        {
-            var lines = File.ReadAllLines(filename);
+            var lines = File.ReadAllLines(InputFile);
 
             ReadInput(lines);
             RunOperations(20, true);
@@ -30,9 +23,9 @@ namespace AdventOfCode2022
         }
 
 
-        public string RunPart2()
+        public override string RunPart2()
         {
-            var lines = File.ReadAllLines(filename);
+            var lines = File.ReadAllLines(InputFile);
             ReadInput(lines);
             RunOperations(10000, false);
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 
 namespace AdventOfCode2022
 {
@@ -15,7 +17,12 @@ namespace AdventOfCode2022
 
         private static void Run(int day, int part, bool test)
         {
-            var dayObj = GetCurrentDay(day, test);
+            var dayObj = GetCurrentDay(day);
+
+            var prefix = test ? "test" : "input";
+            var filePath = $"../../Data/{prefix}{day}.txt";
+            dayObj.InputFile = filePath;
+            dayObj.IsTest = test;
 
             string result = default;
             switch(part)
@@ -28,30 +35,15 @@ namespace AdventOfCode2022
             Console.WriteLine($"Day {day}: Result for Part {part}: {result}");
         }
 
-        private static IDay GetCurrentDay(int day, bool test)
+        private static IDay GetCurrentDay(int day)
         {
-            var prefix = test ? "test" : "input";
-            var filePath = $"../../Data/{prefix}{day}.txt";
-
-            switch(day)
-            {
-                case 1: return new Day1(filePath);
-                case 2: return new Day2(filePath);
-                case 3: return new Day3(filePath);
-                case 4: return new Day4(filePath);
-                case 5: return new Day5(filePath);
-                case 6: return new Day6(filePath);
-                case 7: return new Day7(filePath);
-                case 8: return new Day8(filePath);
-                case 9: return new Day9(filePath);
-                case 10: return new Day10(filePath);
-                case 11: return new Day11(filePath);
-                case 12: return new Day12(filePath);
-                case 13: return new Day13(filePath);
-                case 14: return new Day14(filePath);
-                case 15: return new Day15(filePath, test);
-                default: throw new NotImplementedException();
-            };
+            var allTypes = Assembly.GetExecutingAssembly().GetTypes();
+            var dayTypes = allTypes.Where(t => t.IsDefined(typeof(DayAttribute)));
+            var currentDayType = dayTypes.FirstOrDefault(t => t.GetCustomAttribute<DayAttribute>().Day == day);
+            if(currentDayType != null)
+                return (IDay)Activator.CreateInstance(currentDayType);
+            
+            throw new Exception($"Day {day} not found");
         }
 
     }

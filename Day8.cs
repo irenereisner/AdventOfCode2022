@@ -5,19 +5,12 @@ using System.Linq;
 
 namespace AdventOfCode2022
 {
-
-    public class Day8 : IDay
+    [Day(8)]
+    public class Day8 : Day
     {
-        private string filename;
         private TreeMatrix trees;
 
-
-        public Day8(string filename)
-        {
-            this.filename = filename;
-        }
-
-        public string RunPart1()
+        public override string RunPart1()
         {
             ReadTrees();
             var visibleCount = trees.GetVisibleTreeCount();
@@ -26,7 +19,7 @@ namespace AdventOfCode2022
         }
 
 
-        public string RunPart2()
+        public override string RunPart2()
         {
             ReadTrees();
 
@@ -35,7 +28,7 @@ namespace AdventOfCode2022
 
         private void ReadTrees()
         {
-            var lines = File.ReadAllLines(filename);
+            var lines = File.ReadAllLines(InputFile);
 
             var height = lines.Length;
             var width = lines[0].Length;

@@ -1,31 +1,24 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
 namespace AdventOfCode2022
 {
-
-    public class Day5 : IDay
+    [Day(5)]
+    public class Day5 : Day
     {
-        private string filename;
         private Dictionary<int, Stack<char>> stacksOfCrates;
         private bool isPart2;
 
-        public Day5(string filename)
-        {
-            this.filename = filename;
-        }
 
-        public string RunPart1()
+        public override string RunPart1()
         {
             return Run();
         }
 
 
-        public string RunPart2()
+        public override string RunPart2()
         {
             isPart2 = true;
             return Run();
@@ -33,7 +26,7 @@ namespace AdventOfCode2022
 
         private string Run()
         {
-            var inputLines = File.ReadAllLines(filename);
+            var inputLines = File.ReadAllLines(InputFile);
             var stackLines = inputLines.TakeWhile(l => !string.IsNullOrWhiteSpace(l)).ToList();
             var instructions = inputLines.Skip(stackLines.Count + 1).ToList();
 

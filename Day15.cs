@@ -1,16 +1,13 @@
+using AdventOfCode;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using AdventOfCode;
 
 namespace AdventOfCode2022
 {
-
-    public class Day15 : IDay
+    [Day(15)]
+    public class Day15 : Day
     {
-        private string filename;
         private List<Vec2> sensors;
         private List<Vec2> beacons;
         private List<int> distances;
@@ -21,9 +18,8 @@ namespace AdventOfCode2022
         int maxValue = 4000000;
         int multiplier = 4000000;
 
-        public Day15(string filename, bool test)
+        public Day15(bool test)
         {
-            this.filename = filename;
             if (test)
             {
                 maxValue = 20;
@@ -31,7 +27,7 @@ namespace AdventOfCode2022
             }
         }
 
-        public string RunPart1()
+        public override string RunPart1()
         {
             ReadInput();
 
@@ -52,7 +48,7 @@ namespace AdventOfCode2022
         }
 
 
-        public string RunPart2()
+        public override string RunPart2()
         {
             ReadInput();
 
@@ -103,7 +99,7 @@ namespace AdventOfCode2022
             sensors = new List<Vec2>();
             beacons = new List<Vec2>();
             distances = new List<int>();
-            foreach(var values in Parser.ParseAllInts(filename))
+            foreach(var values in Parser.ParseAllInts(InputFile))
             {
                 var sensor = new Vec2(values[0], values[1]);
                 var beacon = new Vec2(values[2], values[3]);

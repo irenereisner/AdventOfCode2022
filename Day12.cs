@@ -1,31 +1,22 @@
 using AdventOfCode;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace AdventOfCode2022
 {
-
-    public class Day12 : IDay
+    [Day(12)]
+    public class Day12 : Day
     {
-        private string filename;
-
         private Grid<char> grid;
         private Grid<int> distances;
         private Grid<int> predecessors;
         private Grid<bool> visited;
 
-        public Day12(string filename)
+        public override string RunPart1()
         {
-            this.filename = filename;
-        }
-
-        public string RunPart1()
-        {
-            var input = File.ReadAllLines(filename);
+            var input = File.ReadAllLines(InputFile);
             grid = new Grid<char>(input[0].Length, input.Length,
                 input.SelectMany(str => str.Select(c => c)));
 
@@ -43,9 +34,9 @@ namespace AdventOfCode2022
         }
 
 
-        public string RunPart2()
+        public override string RunPart2()
         {
-            var input = File.ReadAllLines(filename);
+            var input = File.ReadAllLines(InputFile);
             grid = new Grid<char>(input[0].Length, input.Length,
                 input.SelectMany(str => str.Select(c => c)));
 

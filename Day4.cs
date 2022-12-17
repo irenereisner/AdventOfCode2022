@@ -4,27 +4,20 @@ using System.Linq;
 
 namespace AdventOfCode2022
 {
-
-    public class Day4 : IDay
+    [Day(4)]
+    public class Day4 : Day
     {
-        private string filename;
-
-        public Day4(string filename)
+        public override string RunPart1()
         {
-            this.filename = filename;
-        }
-
-        public string RunPart1()
-        {
-            var lines = File.ReadAllLines(filename);
+            var lines = File.ReadAllLines(InputFile);
 
             return lines.Where(HasFullContainment).Count().ToString();
         }
 
 
-        public string RunPart2()
+        public override string RunPart2()
         {
-            var lines = File.ReadAllLines(filename);
+            var lines = File.ReadAllLines(InputFile);
 
             return lines.Where(HasOverlap).Count().ToString();
         }

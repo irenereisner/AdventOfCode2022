@@ -1,28 +1,20 @@
+using AdventOfCode;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using AdventOfCode;
 
 namespace AdventOfCode2022
 {
-
-    public class Day14 : IDay
+    [Day(14)]
+    public class Day14 : Day
     {
-        private string filename;
-
         private Vec2 spawner = new Vec2(500, 0);
         private List<List<Vec2>> rocks = new List<List<Vec2>>();
         private Vec2 offset;
         private Grid<char> grid;
 
-        public Day14(string filename)
-        {
-            this.filename = filename;
-        }
-
-        public string RunPart1()
+        public override string RunPart1()
         {
             ReadRocks();            
             CreateGrid();
@@ -41,7 +33,7 @@ namespace AdventOfCode2022
         }
 
 
-        public string RunPart2()
+        public override string RunPart2()
         {
             ReadRocks();
             AddBottomLine();
@@ -64,7 +56,7 @@ namespace AdventOfCode2022
 
         private void ReadRocks()
         {
-            var lines = File.ReadAllLines(filename);
+            var lines = File.ReadAllLines(InputFile);
 
             foreach (var line in lines)
             {

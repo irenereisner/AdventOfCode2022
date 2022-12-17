@@ -1,29 +1,21 @@
 using AdventOfCode;
 using System;
-using System.IO;
 using System.Linq;
 
 namespace AdventOfCode2022
 {
-
-    public class Day2 : IDay
+    [Day(2)]
+    public class Day2 : Day
     {
-        private string filename;
-
-        public Day2(string filename)
+        public override string RunPart1()
         {
-            this.filename = filename;
-        }
-
-        public string RunPart1()
-        {
-            var inputs = Parser.SplitLinesBySpaces(filename, str => char.Parse(str));
+            var inputs = Parser.SplitLinesBySpaces(InputFile, str => char.Parse(str));
             var result = inputs.Select(input => ComputeScore(input[0], input[1])).Sum();
             return result.ToString();
         }
-        public string RunPart2()
+        public override string RunPart2()
         {
-            var inputs = Parser.SplitLinesBySpaces(filename, str => char.Parse(str));
+            var inputs = Parser.SplitLinesBySpaces(InputFile, str => char.Parse(str));
             var result = inputs.Select(input => ComputeScorePart2(input[0], input[1])).Sum();
             return result.ToString();
         }

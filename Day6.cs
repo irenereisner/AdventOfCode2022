@@ -1,34 +1,26 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
 namespace AdventOfCode2022
 {
-
-    public class Day6 : IDay
+    [Day(6)]
+    public class Day6 : Day
     {
-        private string filename;
         private int markerLength = 4;
 
-        public Day6(string filename)
-        {
-            this.filename = filename;
-        }
-
-        public string RunPart1()
+        public override string RunPart1()
         {
             markerLength = 4;
-            var input = File.ReadAllText(filename);
+            var input = File.ReadAllText(InputFile);
             return GetMarkerPosition(input).ToString();
         }
 
 
-        public string RunPart2()
+        public override string RunPart2()
         {
             markerLength = 14;
-            var input = File.ReadAllText(filename);
+            var input = File.ReadAllText(InputFile);
             return GetMarkerPosition(input).ToString();
         }
 

@@ -1,24 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
 namespace AdventOfCode2022
 {
-
-    public class Day3 : IDay
+    [Day(3)]
+    public class Day3 : Day
     {
-        private string filename;
-
-        public Day3(string filename)
+        public override string RunPart1()
         {
-            this.filename = filename;
-        }
-
-        public string RunPart1()
-        {
-            var lines = File.ReadAllLines(filename);
+            var lines = File.ReadAllLines(InputFile);
             var doubleItems = lines.Select(GetDoubleItem).ToList();
             var priorities = doubleItems.Select(GetPriority).ToList();
 
@@ -26,9 +18,9 @@ namespace AdventOfCode2022
             //    Console.WriteLine($"{item.First} => {item.Second}");
             return priorities.Sum().ToString();
         }
-        public string RunPart2()
+        public override string RunPart2()
         {
-            var lines = File.ReadAllLines(filename);
+            var lines = File.ReadAllLines(InputFile);
 
             var badges = new List<char>();
             for (int i = 0; i < lines.Length; i += 3)

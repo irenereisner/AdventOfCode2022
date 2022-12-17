@@ -5,19 +5,12 @@ using System.Linq;
 
 namespace AdventOfCode2022
 {
-
-    public class Day7 : IDay
+    [Day(7)]
+    public class Day7 : Day
     {
-        private string filename;
-
-        public Day7(string filename)
+        public override string RunPart1()
         {
-            this.filename = filename;
-        }
-
-        public string RunPart1()
-        {
-            var lines = File.ReadAllLines(filename);
+            var lines = File.ReadAllLines(InputFile);
 
             var rootDir = ReadFileSystem(lines);
             rootDir.Print();
@@ -30,9 +23,9 @@ namespace AdventOfCode2022
         }
 
 
-        public string RunPart2()
+        public override string RunPart2()
         {
-            var lines = File.ReadAllLines(filename);
+            var lines = File.ReadAllLines(InputFile);
 
             var rootDir = ReadFileSystem(lines);
             rootDir.Print();

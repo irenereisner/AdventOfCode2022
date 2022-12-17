@@ -1,16 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
 namespace AdventOfCode2022
 {
-
-    public class Day10 : IDay
+    [Day(10)]
+    public class Day10 : Day
     {
-        private string filename;
-
         private int cycle = 0;
         private int xValue = 1;
         private int signalStrength = 0;
@@ -18,24 +14,20 @@ namespace AdventOfCode2022
         private char[] output = new char[240];
         private int rowLength = 40;
 
-        public Day10(string filename)
-        {
-            this.filename = filename;
-        }
 
-        public string RunPart1()
+        public override string RunPart1()
         {
-            foreach (var line in File.ReadAllLines(filename))
+            foreach (var line in File.ReadAllLines(InputFile))
                 ProcessInput(line);
             return signalStrength.ToString();
         }
 
 
-        public string RunPart2()
+        public override string RunPart2()
         {
             InitOutput();
 
-            foreach (var line in File.ReadAllLines(filename))
+            foreach (var line in File.ReadAllLines(InputFile))
                 ProcessInput(line);
 
             var outputString = "\n";

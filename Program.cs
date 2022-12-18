@@ -24,6 +24,9 @@ namespace AdventOfCode2022
             dayObj.InputFile = filePath;
             dayObj.IsTest = test;
 
+
+            var watch = new System.Diagnostics.Stopwatch();
+            watch.Start();
             string result = default;
             switch(part)
             {
@@ -31,7 +34,8 @@ namespace AdventOfCode2022
                 case 2: result = dayObj.RunPart2(); break;
                 default:  throw new NotSupportedException();
             }
-
+            watch.Stop();
+            Console.WriteLine($"execution time: {watch.ElapsedMilliseconds} ms");
             Console.WriteLine($"Day {day}: Result for Part {part}: {result}");
         }
 

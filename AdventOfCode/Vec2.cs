@@ -18,10 +18,12 @@ namespace AdventOfCode
             var parts = input.Split(separation);
             return new Vec2(int.Parse(parts[0].Trim()), int.Parse(parts[1].Trim()));
         }
-
         public override int GetHashCode()
         {
-            return X.GetHashCode() + Y.GetHashCode();
+            var hash = 17;
+            hash = hash * 23 + X.GetHashCode();
+            hash = hash * 23 + Y.GetHashCode();
+            return hash;
         }
 
         public override string ToString()

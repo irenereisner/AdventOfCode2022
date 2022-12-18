@@ -16,16 +16,8 @@ namespace AdventOfCode2022
         int requestedY = 2000000;
         int minValue = 0;
         int maxValue = 4000000;
-        int multiplier = 4000000;
+        long multiplier = 4000000;
 
-        public Day15(bool test)
-        {
-            if (test)
-            {
-                maxValue = 20;
-                requestedY = 10;
-            }
-        }
 
         public override string RunPart1()
         {
@@ -33,7 +25,10 @@ namespace AdventOfCode2022
 
             var min = sensors.Concat(beacons).SelectMany(v => new[] { v.X, v.Y }).Min()-distances.Max();
             var max = sensors.Concat(beacons).SelectMany(v => new[] { v.X, v.Y }).Max()+distances.Max();
-
+            if (IsTest)
+            {
+                requestedY = 10;
+            }
 
             var bsCount = GetSensorsAndBeacons(requestedY).Count();
             var free = GetFreePositions(requestedY, min, max);
@@ -52,33 +47,37 @@ namespace AdventOfCode2022
         {
             ReadInput();
 
+            if(IsTest)
+            {
+                maxValue = 20;
+            }
+
+            return Part2SolutionB();
+        }
+
+        private string Part2SolutionA()
+        {
             var results = new List<Vec2>();
 
-            for(int y = minValue; y <= maxValue; y++)
+            for (int y = minValue; y <= maxValue; y++)
             {
                 var values = GetFreePositions(y, minValue, maxValue).ToList();
                 if (values.Count > 0)
                 {
                     var x = values.First();
                     Console.WriteLine(new Vec2(x, y) + " " + (x * multiplier + y));
-                    
+
 
                     results.Add(new Vec2(x, y));
                 }
             }
 
             return (results[0].X * multiplier + results[0].Y).ToString();
-
-
-
-            // wrong: 1012239654 (too low)
-            /*var vectors = GetFreePosition().ToList();
-            var vec = vectors[0];
-            foreach (var v in vectors)
-            {
-                Console.WriteLine($"v: {v}");
-            }
-            return (vec.X * multiplier + vec.Y).ToString();*/
+        }
+        private string Part2SolutionB()
+        {
+            var vec = GetFreePosition();
+            return (vec.X * multiplier + vec.Y).ToString();
         }
 
 

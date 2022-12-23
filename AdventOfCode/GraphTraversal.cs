@@ -8,7 +8,7 @@ namespace AdventOfCode
     {
 
 
-        public static void BFS(Graph graph, Node start, Action<Node> action)
+        public static void BFS<T>(Graph<T> graph, Node<T> start, Action<Node<T>> action)
         {
             var queue = new Queue<int>();
             queue.Enqueue(start.Id);
@@ -32,7 +32,7 @@ namespace AdventOfCode
             }
         }
         
-        public static int DFS(Graph graph, Node start, Func<Node, int> func)
+        public static int DFS<T>(Graph<T> graph, Node<T> start, Func<Node<T>, int> func)
         {
             var stack = new Stack<IEnumerator<int>>();
             var discovered = new HashSet<int>();

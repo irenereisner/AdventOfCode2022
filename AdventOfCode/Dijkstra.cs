@@ -9,12 +9,12 @@ namespace AdventOfCode
         Dictionary<int, long> distances;
         Dictionary<int, Node> predecessors;
         List<int> queue;
-        public IEnumerable<int> FindShortestPath(Graph graph, Node start, Node end)
+        public IEnumerable<int> FindShortestPath(IGraph graph, Node start, Node end)
         {
             Initialize(graph, start);
             while (queue.Count > 0)
             {
-                var u = graph.GetNode(GetNext());
+                var u = graph.Get(GetNext());
                 queue.Remove(u.Id);
                 if (u == end)
                 {
@@ -24,25 +24,25 @@ namespace AdventOfCode
                 {
                     if (queue.Contains(neighborId))
                     {
-                        UpdateCost(u, graph.GetNode(neighborId));
+                        UpdateCost(u, graph.Get(neighborId));
                     }
                 }
             }
             throw new Exception($"No path from {start} to {end}");
         }
 
-        public void TraverseWholeGraph(Graph graph, Node start)
+        public void TraverseWholeGraph(IGraph graph, Node start)
         {
             Initialize(graph, start);
             while (queue.Count > 0)
             {
-                var u = graph.GetNode(GetNext());
+                var u = graph.Get(GetNext());
                 queue.Remove(u.Id);
                 foreach (var neighborId in u.GetNeighbors())
                 {
                     if (queue.Contains(neighborId))
                     {
-                        UpdateCost(u, graph.GetNode(neighborId));
+                        UpdateCost(u, graph.Get(neighborId));
                     }
                 }
             }
@@ -72,17 +72,17 @@ namespace AdventOfCode
             }
         }
 
-        private void Initialize(Graph graph, Node start)
+        private void Initialize(IGraph graph, Node start)
         {
             distances = new Dictionary<int, long>();
             predecessors = new Dictionary<int, Node>();
-            foreach (var node in graph.GetAllNodes())
+            foreach (var node in graph.GetAll())
             {
                 distances.Add(node.Id, int.MaxValue);
                 predecessors.Add(node.Id, null);
             }
             distances[start.Id] = 0;
-            queue = graph.GetAllNodes().Select(n => n.Id).ToList();
+            queue = graph.GetAll().Select(n => n.Id).ToList();
         }
 
         private int GetNext()
